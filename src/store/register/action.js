@@ -1,6 +1,7 @@
 import { myFirebase, db } from '../../config/firebase';
 import { SIGNUP_REQUEST, SIGNUP_SUCCESS, SIGNUP_FAILURE } from './actionTypes';
 import { showAlert } from '../alert/action';
+import { history } from "../../history";
 
 const requestSignup = () => {
     return {
@@ -20,23 +21,26 @@ const signupError = () => {
     };
 };
 
-export const signupUser = (user) => {
+export const signupUser = (data) => {
     return async (dispatch) => {
         try {
             dispatch(requestSignup());
-            const { email, password, firstName, lastName } = user;
+            const { email, password, firstName, lastName } = data;
             const response = await myFirebase.auth().createUserWithEmailAndPassword(email, password);
-            if (response.user.uid) {
-                const user = {
+            const user = response.user;
+            if (user.uid) {
+                const userData = {
                     firstName,
                     lastName,
-                    uid: response.user.uid,
-                    email: response.user.email,
+                    uid: user.uid,
+                    email: user.email,
                     isAdmin: false
                 };
-                await db.collection('users').doc(response.user.uid).set(user);
+                await db.collection('users').doc(user.uid).set(userData);
+                await user.sendEmailVerification();
                 dispatch(receiveSignup());
-                dispatch(showAlert('Ви успішно зареєструвалися', 'success'));
+                dispatch(showAlert('Ви успішно зареєструвалися. Будь ласка, підвердіть свій email.', 'success'));
+                history.push('/login');
             }
         } catch (e) {
             dispatch(signupError());

@@ -8,17 +8,16 @@ import './style.scss';
 class Alert extends Component {
     constructor(props){
         super(props);
-        this.timeout = null;
+        this.timeout = 0;
     }
-    timeout = null;
     componentDidMount() {
-        this.timeout = setInterval(() => {
+        this.timeout = setTimeout(() => {
             this.props.clearAlert();
         }, 10000);
     }
 
     componentWillUnmount() {
-        clearInterval(this.timeout);
+        clearTimeout(this.timeout);
         this.timeout = 0;
     }
 

@@ -75,7 +75,12 @@ export const loginUser = (user) => {
             const { email, password } = user;
             const response = await myFirebase.auth().signInWithEmailAndPassword(email, password);
             dispatch(getUser(response.user.uid));
-            dispatch(receiveLogin(response.user));
+            if(response.user && response.user.emailVerified) {
+                dispatch(receiveLogin(response.user));
+            } else {
+                dispatch(showAlert('Будь ласка, підтвердіть свій email', 'danger'));
+                throw new Error ('Будь ласка, підтвердіть свій email');
+            }
         } catch (e) {
             dispatch(loginError());
             dispatch(showAlert('Неправильний email або пароль', 'danger'));
@@ -113,7 +118,7 @@ export const logoutUser = () => {
 export const verifyAuth = () => dispatch => {
     dispatch(verifyRequest());
     myFirebase.auth().onAuthStateChanged(user => {
-        if (user !== null) {
+        if (user && user.emailVerified) {
             dispatch(receiveLogin(user));
         }
         dispatch(verifySuccess());

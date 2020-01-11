@@ -42,7 +42,7 @@ export const authReducer = (
         case USER_DATA_SUCCESS:
             return {
                 ...state,
-                newDate: action.payload
+                newData: action.payload
             };
         case LOGIN_FAILURE:
             return {
@@ -62,7 +62,6 @@ export const authReducer = (
                 ...state,
                 isLoggingOut: false,
                 isAuthenticated: false,
-                user: {}
             };
         case LOGOUT_FAILURE:
             return {
