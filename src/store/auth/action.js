@@ -11,6 +11,7 @@ import {
     USER_DATA_SUCCESS
 } from './actionTypes';
 import { showAlert } from '../alert/action';
+import { history } from '../../history';
 
 const requestLogin = () => {
     return {
@@ -107,6 +108,7 @@ export const logoutUser = () => {
             dispatch(requestLogout());
             await myFirebase.auth().signOut();
             dispatch(receiveLogout());
+            history.push('/login');
         } catch (e) {
             dispatch(logoutError());
             dispatch(showAlert(e.message, 'danger'));

@@ -1,19 +1,14 @@
 import React, { Component } from 'react';
 import { UncontrolledAlert } from 'reactstrap';
 import { clearAlert } from '../../store/alert/action';
-import * as action from '../../store/alert/action';
-import { connect } from 'react-redux';
 import './style.scss';
 
-class Alert extends Component {
-    constructor(props){
-        super(props);
-        this.timeout = 0;
-    }
+export default class Alert extends Component {
+    timeout = null;
     componentDidMount() {
         this.timeout = setTimeout(() => {
             this.props.clearAlert();
-        }, 10000);
+        }, 6000);
     }
 
     componentWillUnmount() {
@@ -34,13 +29,3 @@ class Alert extends Component {
         );
     }
 }
-
-const mapStateToProps = (state) => ({
-    message: state.alert.message,
-    color: state.alert.color,
-});
-
-export default connect(
-    mapStateToProps,
-    {clearAlert: action.clearAlert},
-)(Alert);
