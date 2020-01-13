@@ -79,12 +79,15 @@ export const loginUser = (user) => {
             if(response.user && response.user.emailVerified) {
                 dispatch(receiveLogin(response.user));
             } else {
-                dispatch(showAlert('Будь ласка, підтвердіть свій email', 'danger'));
                 throw new Error ('Будь ласка, підтвердіть свій email');
             }
         } catch (e) {
             dispatch(loginError());
-            dispatch(showAlert('Неправильний email або пароль', 'danger'));
+            if(e.code === 'auth/wrong-password') {
+                dispatch(showAlert('Неправильний email або пароль', 'danger'));
+            } else {
+                dispatch(showAlert(e.message, 'danger'));
+            }
             console.error(e);
         }
     }
