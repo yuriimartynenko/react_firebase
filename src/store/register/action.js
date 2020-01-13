@@ -45,7 +45,7 @@ export const signupUser = (data) => {
         } catch (e) {
             dispatch(signupError());
             dispatch(showAlert('Такий користувач вже існує', 'danger'));
-            console.error(e);
+            console.error(e.message);
         }
     }
 };

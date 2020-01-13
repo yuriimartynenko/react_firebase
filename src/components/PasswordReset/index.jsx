@@ -1,20 +1,20 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
-import { loginUser } from '../../store/auth/action';
+import { passwordReset } from '../../store/passwordReset/action';
 import { Link } from 'react-router-dom';
 import { Field } from 'redux-form';
 import { renderField } from '../CommonComponents/ReduxFormFields';
 import { reduxForm } from 'redux-form';
 import validate from '../../utils/validation';
-import './style.scss';
+import '../Login/style.scss';
 
-const Login = (props) => {
+const PasswordReset = (props) => {
     const onSubmit = (user) => {
         const { dispatch } = props;
-        dispatch(loginUser(user));
+        dispatch(passwordReset(user));
     };
-    const { isAuthenticated, handleSubmit, invalid, isLoggingIn } = props;
+    const { isAuthenticated, handleSubmit, invalid, isPasswordReset } = props;
     if (isAuthenticated) {
         return <Redirect to='/' />;
     } else {
@@ -24,7 +24,7 @@ const Login = (props) => {
                     <div className='col-sm-9 col-md-7 col-lg-5 mx-auto'>
                         <div className='card card-signin my-5'>
                             <div className='card-body'>
-                                <h5 className='card-title text-center'>Авторизація</h5>
+                                <h5 className='card-title text-center'>Відновити пароль</h5>
                                 <form className='form-signin' onSubmit={handleSubmit(onSubmit)}>
                                     <div className='form-label-group'>
                                         <Field
@@ -34,31 +34,14 @@ const Login = (props) => {
                                             className='form-control'
                                             placeholder='Email'
                                             component={renderField}
-                                            required
-                                            autoFocus />
+                                        />
                                     </div>
-
-                                    <div className='form-label-group'>
-                                        <Field
-                                            type='password'
-                                            name='password'
-                                            id='inputPassword'
-                                            className='form-control'
-                                            placeholder='Пароль'
-                                            component={renderField}
-                                            label='Пароль'
-                                            required />
-                                    </div>
-
-                                    <div className='mb-3'>
-                                        <Link to='/password-reset' className='pt-2'>Забули пароль?</Link>
-                                    </div>
-                                    <button className='btn btn-lg btn-primary btn-block text-uppercase' disabled={isLoggingIn || invalid}>
-                                        {isLoggingIn ? 'Зачекайте' : 'Увійти'}
+                                    <button className='btn btn-lg btn-primary btn-block text-uppercase' disabled={isPasswordReset || invalid}>
+                                        {isPasswordReset ? 'Зачекайте' : 'Відправити'}
                                     </button>
                                     <hr className='my-4' />
                                     <div className='text-center'>
-                                        <Link to='/register'>У вас ще немає аккаунта?</Link>
+                                        <Link to='/login'>Назад</Link>
                                     </div>
                                 </form>
                             </div>
@@ -72,14 +55,14 @@ const Login = (props) => {
 
 function mapStateToProps(state) {
     return {
-        isLoggingIn: state.auth.isLoggingIn,
+        isPasswordReset: state.passwordReset.isPasswordReset,
         isAuthenticated: state.auth.isAuthenticated
     };
 }
 
 export default connect(mapStateToProps)(
     reduxForm({
-        form: 'loginForm',
+        form: 'passwordResetForm',
         validate,
-    })(Login),
+    })(PasswordReset),
 );

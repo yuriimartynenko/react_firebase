@@ -88,7 +88,7 @@ export const loginUser = (user) => {
             } else {
                 dispatch(showAlert(e.message, 'danger'));
             }
-            console.error(e);
+            console.error(e.message);
         }
     }
 };
@@ -100,7 +100,7 @@ export const getUser = (uid) => {
             dispatch(userData(user.data()));
         } catch (e) {
             dispatch(showAlert(e.message, 'danger'));
-            console.error(e);
+            console.error(e.message);
         }
     }
 };
@@ -115,7 +115,7 @@ export const logoutUser = () => {
         } catch (e) {
             dispatch(logoutError());
             dispatch(showAlert(e.message, 'danger'));
-            console.error(e);
+            console.error(e.message);
         }
     }
 };

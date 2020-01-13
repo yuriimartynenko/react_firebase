@@ -5,17 +5,19 @@ import Home from '../components/Main';
 import { history } from '../history';
 import Login from './../components/Login';
 import Register from '../components/Register';
+import PasswordReset from '../components/PasswordReset'
 
 export const routes = (
     <Router history={history}>
         <Switch>
             <ProtectedRoute
                 exact
-                path="/"
+                path='/'
                 component={Home}
             />
-            <Route path="/login" component={Login} />
-            <Route path="/register" component={Register} />
+            <Route path='/login' component={Login} />
+            <Route path='/register' component={Register} />
+            <Route path='/password-reset' component={PasswordReset} />
         </Switch>
     </Router>
 );
