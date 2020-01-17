@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { logoutUser } from '../../store/auth/action';
-import { Container, Row, Col, Button } from 'reactstrap';
+import { Container, Row, Col } from 'reactstrap';
+import { ProtectedDashboardRoute } from '../../routes/ProtectedDashboardRoute';
+import Sidebar from '../Sidebar';
+import NavBarMenu from '../Navbar';
 
 class Home extends Component {
     handleLogout = () => {
@@ -10,14 +13,20 @@ class Home extends Component {
     };
 
     render() {
-        const { isLoggingOut, logoutError } = this.props;
+        const { isLoggingOut } = this.props;
         return (
             <Container>
-                <Row>
-                    <Col>
-                        <h1>Ласкаво просимо</h1>
-                        <Button onClick={this.handleLogout} color='danger'>{isLoggingOut ? 'Зачекайте..' : 'Вийти'}</Button>
-                        {logoutError && <p>Error logging out</p>}
+                <div>
+                    <NavBarMenu handleLogout={this.handleLogout} isLoggingOut={isLoggingOut} />
+                </div>
+                <Row className='profile'>
+                    <Col md='4' lg='3' className='mt-3'>
+                        <Sidebar />
+                    </Col>
+                    <Col md='8' lg='9' className='mt-3'>
+                        <div className='edit-content pl-4'>
+                            {ProtectedDashboardRoute}
+                        </div>
                     </Col>
                 </Row>
             </Container>

@@ -18,7 +18,7 @@ export const defaultState = {
     logoutError: false,
     isAuthenticated: false,
     user: {},
-    newDate: {}
+    newData: {}
 };
 
 export const authReducer = (
@@ -58,11 +58,7 @@ export const authReducer = (
                 logoutError: false
             };
         case LOGOUT_SUCCESS:
-            return {
-                ...state,
-                isLoggingOut: false,
-                isAuthenticated: false,
-            };
+            return defaultState;
         case LOGOUT_FAILURE:
             return {
                 ...state,

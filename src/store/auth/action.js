@@ -75,8 +75,8 @@ export const loginUser = (user) => {
             dispatch(requestLogin());
             const { email, password } = user;
             const response = await myFirebase.auth().signInWithEmailAndPassword(email, password);
-            dispatch(getUser(response.user.uid));
             if(response.user && response.user.emailVerified) {
+                dispatch(getUser(response.user.uid));
                 dispatch(receiveLogin(response.user));
             } else {
                 throw new Error ('Будь ласка, підтвердіть свій email');
@@ -124,6 +124,7 @@ export const verifyAuth = () => dispatch => {
     dispatch(verifyRequest());
     myFirebase.auth().onAuthStateChanged(user => {
         if (user && user.emailVerified) {
+            dispatch(getUser(user.uid));
             dispatch(receiveLogin(user));
         }
         dispatch(verifySuccess());
