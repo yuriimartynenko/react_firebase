@@ -11,13 +11,17 @@ export const routes = (
     <Router history={history}>
         <Switch>
             <ProtectedRoute
-                exact
                 path='/'
                 component={Home}
+                exact
             />
-            <Route path='/login' component={Login} />
-            <Route path='/register' component={Register} />
-            <Route path='/password-reset' component={PasswordReset} />
+            <ProtectedRoute
+                path='/dashboard'
+                component={Home}
+            />
+            <Route exact path='/login' component={Login} />
+            <Route exact path='/register' component={Register} />
+            <Route exact path='/password-reset' component={PasswordReset} />
         </Switch>
     </Router>
 );
